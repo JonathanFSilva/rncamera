@@ -7,7 +7,7 @@ export default (styles = StyleSheet.create({
     height: Dimensions.get('window').height,
   },
   camera: {
-    flex: 1,
+    flex: 3,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -24,7 +24,7 @@ export default (styles = StyleSheet.create({
   },
   button: {
     padding: 20,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
   },
   buttonIcon: {
@@ -34,12 +34,24 @@ export default (styles = StyleSheet.create({
     textAlign: 'center',
   },
   imagePreview: {
-    flex: 1,
+    flex: 3,
   },
   buttonsPreview: {
     padding: 20,
     flexDirection: 'row',
     justifyContent: 'space-around',
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  },
+  galleryContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    backgroundColor: '#000000',
+  },
+  galleryImage: {
+    width: 140,
+    height: 140,
+    marginVertical: 5,
+    marginHorizontal: (Dimensions.get('window').width / 2) - 70,
   },
 }));

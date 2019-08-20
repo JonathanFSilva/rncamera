@@ -2,10 +2,7 @@ import React, {useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
-  CameraRoll,
-  Image,
   ImageBackground,
-  PermissionsAndroid,
   ScrollView,
   TouchableOpacity,
   View,
@@ -16,6 +13,7 @@ import styles from './styles';
 
 const App = () => {
   const [image, setImage] = useState(null);
+  const [gallery, setGallery] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   takePicture = async () => {
@@ -24,13 +22,13 @@ const App = () => {
         setIsLoading(true);
 
         const data = await this.camera.takePictureAsync({
-          quality: 0.5,
+          quality: 1,
           base64: true,
-          forceUpOrientation: true,
-          fixOrientation: true,
+          pauseAfterCapture: true,
+          skipProcessing: true,
         });
 
-        setImage(data.uri);
+        setImage(data);
         setIsLoading(false);
       }
     } catch (error) {
@@ -41,18 +39,9 @@ const App = () => {
 
   storePicture = async () => {
     try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        {
-          title: 'Access Storage',
-          message: 'Access Storage for the pictures',
-        },
-      );
-
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        await CameraRoll.saveToCameraRoll(image);
-      } else {
-        Alert.alert('Erro!', 'Não foi possível salvar a imagem!');
+      if (!!image) {
+        await setGallery([...gallery, image]);
+        await setImage(null);
       }
     } catch (error) {
       Alert.alert('Erro!', 'Não foi possível salvar a imagem!');
@@ -64,9 +53,9 @@ const App = () => {
   };
 
   return (
-    <>
+    <View style={styles.container}>
       {!!image ? (
-        <ImageBackground style={styles.imagePreview} source={{uri: image}}>
+        <ImageBackground style={styles.imagePreview} source={{uri: image.uri}}>
           <View style={styles.buttonsPreview}>
             <Icon name="x" size={30} color="#ffffff" onPress={removePicture} />
             <Icon
@@ -106,7 +95,14 @@ const App = () => {
           </View>
         </RNCamera>
       )}
-    </>
+      {gallery.length > 0 && (
+        <ScrollView style={styles.galleryContainer}>
+          {gallery.map((image, key) => {
+            return <ImageBackground style={styles.galleryImage} source={{uri: image.uri}} key={key} />;
+          })}
+        </ScrollView>
+      )}
+    </View>
   );
 };
 
