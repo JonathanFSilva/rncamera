@@ -7,3 +7,11 @@
 3. Depois execute `react-native link react-native-camera`
 4. Depois execute `react-native link react-native-vector-icons`
 5. Por ultimo execute `react-native run-android`.
+
+#### Prints
+
+![Camera](https://raw.githubusercontent.com/JonathanFSilva/rncamera/master/prints/camera.png)
+
+![Preview da foto](https://raw.githubusercontent.com/JonathanFSilva/rncamera/master/prints/preview.png)
+
+![Foto adicionada](https://raw.githubusercontent.com/JonathanFSilva/rncamera/master/prints/image-added.png)
